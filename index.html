@@ -46,6 +46,11 @@
         font-weight: bold;
         margin-right: 0.5em;
     }
+    .lang-button.active {
+        background-color: #0d6efd; /* Bootstrap primary blue */
+        color: #fff; /* White text */
+        border-color: #0d6efd; /* Match border color */
+    }
     @media (min-width: 768px) {
       .profile-img {
         margin-right: 1.5rem;
@@ -57,6 +62,12 @@
 <body>
 
   <div class="container">
+    <!-- Language Selection -->
+    <div class="text-end mb-3">
+      <button id="lang-en" class="btn btn-sm btn-outline-primary me-1 lang-button" onclick="setLanguage('en')">🇬🇧 English</button>
+      <button id="lang-ro" class="btn btn-sm btn-outline-primary lang-button" onclick="setLanguage('ro')">🇷🇴 Română</button>
+    </div>
+
     <!-- Header Section -->
     <header class="row mb-4 align-items-center">
       <div class="col-md-auto text-center text-md-start">
@@ -64,7 +75,7 @@
       </div>
       <div class="col-md">
         <h1 class="display-4">Răzvan V. Chereji</h1>
-        <p class="lead">
+        <p class="lead" id="intro-text">
           After earning my PhD in statistical mechanics/biophysics and completing a postdoctoral fellowship in computational biology, I seized the opportunity to explore new challenges and chart a new career direction. Motivated by a passion for continuous learning and personal growth, I transitioned into quantitative finance in October 2019, relocating to Princeton to pursue research in this dynamic field.
         </p>
       </div>
@@ -72,14 +83,14 @@
 
     <!-- CV Section -->
     <section class="mb-4 p-3 cv-section">
-      <h2>Curriculum Vitae</h2>
-      <p>You can download my CV from <a href="cv.pdf" target="_blank" rel="noopener noreferrer">here</a>.</p>
+      <h2 id="cv-title">Curriculum Vitae</h2>
+      <p><span id="cv-download-text">You can download my CV from</span> <a href="cv.pdf" target="_blank" rel="noopener noreferrer" id="cv-link">here</a>.</p>
     </section>
 
     <!-- Publications Section -->
     <section id="publications">
-      <h2>Publications</h2>
-      <p>
+      <h2 id="publications-title">Publications</h2>
+      <p id="publications-intro-text">
         Please see my <a href="https://scholar.google.com/citations?user=DCuOYggAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Google Scholar profile</a> or search my name on <a href="https://www.ncbi.nlm.nih.gov/pubmed/?term=Chereji+RV" target="_blank" rel="noopener noreferrer">PubMed</a> for the most up-to-date list of my publications.
       </p>
 
@@ -174,11 +185,60 @@
     </section>
 
     <footer class="text-center text-muted mt-5">
-      <p>&copy; 2020 Răzvan V. Chereji</p>
+      <p id="footer-text">&copy; 2025 Răzvan V. Chereji</p>
     </footer>
 
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script>
+    const translations = {
+      en: {
+        title: "Răzvan V. Chereji",
+        introText: `After earning my PhD in statistical mechanics/biophysics and completing a postdoctoral fellowship in computational biology, I seized the opportunity to explore new challenges and chart a new career direction. Motivated by a passion for continuous learning and personal growth, I transitioned into quantitative finance in October 2019, relocating to Princeton to pursue research in this dynamic field.`,
+        cvTitle: "Curriculum Vitae",
+        cvDownloadText: "You can download my CV from",
+        cvLinkText: "here",
+        publicationsTitle: "Publications",
+        publicationsIntroHTML: `Please see my <a href="https://scholar.google.com/citations?user=DCuOYggAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Google Scholar profile</a> or search my name on <a href="https://www.ncbi.nlm.nih.gov/pubmed/?term=Chereji+RV" target="_blank" rel="noopener noreferrer">PubMed</a> for the most up-to-date list of my publications.`,
+        footerText: "&copy; 2025 Răzvan V. Chereji"
+      },
+      ro: {
+        title: "Răzvan V. Chereji", // Name stays the same
+        introText: `După obținerea doctoratului în mecanică statistică/biofizică și finalizarea unui stagiu postdoctoral în biologie computațională, am decis să explorez noi provocări și să îmi reorientez cariera. Motivat de pasiunea pentru învățare continuă și dezvoltare personală, în octombrie 2019 am făcut tranziția către domeniul finanțelor cantitative, mutându-mă în Princeton pentru a continua cercetarea în acest domeniu.`,
+        cvTitle: "Curriculum Vitae", // Often kept in Latin
+        cvDownloadText: "Puteți descărca CV-ul meu de",
+        cvLinkText: "aici",
+        publicationsTitle: "Publicații",
+        publicationsIntroHTML: `Pentru lista cea mai recentă a publicațiilor mele, consultați <a href="https://scholar.google.com/citations?user=DCuOYggAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">profilul meu Google Scholar</a> sau căutați-mă pe <a href="https://www.ncbi.nlm.nih.gov/pubmed/?term=Chereji+RV" target="_blank" rel="noopener noreferrer">PubMed</a>.`, // Made less formal
+        footerText: "&copy; 2025 Răzvan V. Chereji" // Name stays the same
+      }
+    };
+
+    function setLanguage(lang) {
+      document.documentElement.lang = lang; // Update html lang attribute
+      document.title = translations[lang].title;
+
+      document.getElementById('intro-text').innerHTML = translations[lang].introText;
+      document.getElementById('cv-title').textContent = translations[lang].cvTitle;
+      document.getElementById('cv-download-text').textContent = translations[lang].cvDownloadText; // Update only the text part
+      document.getElementById('cv-link').textContent = translations[lang].cvLinkText; // Update link text
+      document.getElementById('publications-title').textContent = translations[lang].publicationsTitle;
+      document.getElementById('publications-intro-text').innerHTML = translations[lang].publicationsIntroHTML; // Use innerHTML because of links
+      document.getElementById('footer-text').innerHTML = translations[lang].footerText; // Use innerHTML for copyright symbol
+
+      // Update button states (add 'active' class)
+      document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+      document.getElementById('lang-ro').classList.toggle('active', lang === 'ro');
+    }
+
+    // Set initial language based on browser or default to English
+    document.addEventListener('DOMContentLoaded', () => {
+      // Basic check for Romanian browser language preference
+      const userLang = navigator.language || navigator.userLanguage;
+      const initialLang = userLang.startsWith('ro') ? 'ro' : 'en';
+      setLanguage(initialLang); // Set default language on page load
+    });
+  </script>
 </body>
 </html>
