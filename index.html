@@ -180,7 +180,7 @@
         <div class="publication-item">
             <span class="publication-counter">1.</span><strong>Chereji, R.V.</strong>, Tolkunov, D., Locke, G., Morozov, A.V., 2011. Statistical mechanics of nucleosome ordering by chromatin-structure-induced two-body interactions. <em>Phys. Rev. E</em> 83, 050903. <a href="https://doi.org/10.1103/PhysRevE.83.050903" target="_blank" rel="noopener noreferrer">https://doi.org/10.1103/PhysRevE.83.050903</a>
         </div>
-        <p><strong>* </strong>These authors contributed equally</p>
+        <p id="equal-contrib-text" data-en="These authors contributed equally" data-ro="Acești autori au contribuit în mod egal">These authors contributed equally</p>
       </div>
     </section>
 
@@ -201,7 +201,8 @@
         cvLinkText: "here",
         publicationsTitle: "Publications",
         publicationsIntroHTML: `Please see my <a href="https://scholar.google.com/citations?user=DCuOYggAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Google Scholar profile</a> or search my name on <a href="https://www.ncbi.nlm.nih.gov/pubmed/?term=Chereji+RV" target="_blank" rel="noopener noreferrer">PubMed</a> for the most up-to-date list of my publications.`,
-        footerText: "&copy; 2025 Răzvan V. Chereji"
+        footerText: "&copy; 2025 Răzvan V. Chereji",
+        equalContrib: "<strong>*</strong> These authors contributed equally"
       },
       ro: {
         title: "Răzvan V. Chereji", // Name stays the same
@@ -211,7 +212,8 @@
         cvLinkText: "aici",
         publicationsTitle: "Publicații",
         publicationsIntroHTML: `Pentru lista cea mai recentă a publicațiilor mele, consultați <a href="https://scholar.google.com/citations?user=DCuOYggAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">profilul meu Google Scholar</a> sau căutați-mă pe <a href="https://www.ncbi.nlm.nih.gov/pubmed/?term=Chereji+RV" target="_blank" rel="noopener noreferrer">PubMed</a>.`, // Made less formal
-        footerText: "&copy; 2025 Răzvan V. Chereji" // Name stays the same
+        footerText: "&copy; 2025 Răzvan V. Chereji", // Name stays the same
+        equalContrib: "<strong>*</strong> Acești autori au contribuit în mod egal"
       }
     };
 
@@ -230,6 +232,12 @@
       // Update button states (add 'active' class)
       document.getElementById('lang-en').classList.toggle('active', lang === 'en');
       document.getElementById('lang-ro').classList.toggle('active', lang === 'ro');
+
+      // Show/hide equal contribution text
+      const equalContrib = document.getElementById('equal-contrib-text');
+      if (equalContrib) {
+        equalContrib.innerHTML = translations[lang].equalContrib;
+      }
     }
 
     // Set initial language based on browser or default to English
